@@ -4,13 +4,14 @@ import numpy as np
 import h5py
 import image_manipulation as im
 
-def main():
+def main(train_imgs, train_ans, test_imgs, test_ans):
+	'''
 	#setup.... have imported from other program that deals with images
 	train_imgs = np.array([])
 	train_ans = []
 	test_imgs = np.array([])
 	test_ans = []
-
+	'''
 	#converts list of integers to binary class matrix
 	train_ans = keras.utils.to_categorical(train_ans, num_classes = 4)#need to change num classes
 	test_ans = keras.utils.to_categorical(test_ans, num_classes = 4)
