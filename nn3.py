@@ -4,13 +4,8 @@ import numpy as np
 import h5py
 
 def train(train_imgs, train_ans, test_imgs, test_ans):
-	'''
-	#setup.... have imported from other program that deals with images
-	train_imgs = np.array([])
-	train_ans = []
-	test_imgs = np.array([])
-	test_ans = []
-	'''
+	batch_size = 50 #MAKE BIGGER (?)
+	epochs = 10 #MAKE BIGGER (?)
 
 	#converts list of integers to binary class matrix
 	train_ans = keras.utils.to_categorical(train_ans, num_classes = 4)#need to change num classes
@@ -22,17 +17,19 @@ def train(train_imgs, train_ans, test_imgs, test_ans):
 	#hidden layers (change input shape)-------------------------------
 	classifier.add(Conv2D(32, (3, 3), activation = 'relu', input_shape = (64, 64, 3)))#3 means RGB, 1 for black and white
 	classifier.add(MaxPooling2D(pool_size = (2,2)))
-	model.add(Dropout(0.25))classifier.add(Conv2D(64, (3,3), activation = 'relu'))
+	classifier.add(Dropout(0.25))
+
+	classifier.add(Conv2D(64, (3,3), activation = 'relu'))
 	classifier.add(MaxPooling2D(pool_size = (2,2)))
-	model.add(Dropout(0.25))
+	classifier.add(Dropout(0.25))
 
 	classifier.add(Conv2D(128, (3,3), activation = 'relu'))
 	classifier.add(MaxPooling2D(pool_size = (2,2)))
-	model.add(Dropout(0.25))
+	classifier.add(Dropout(0.25))
 
 	classifier.add(Conv2D(256, (3,3), activation = 'relu'))
 	classifier.add(MaxPooling2D(pool_size = (2,2)))
-	model.add(Dropout(0.25))
+	classifier.add(Dropout(0.25))
 	#-----------------------------------------------------------------
 
 	classifier.add(Flatten())
@@ -41,8 +38,8 @@ def train(train_imgs, train_ans, test_imgs, test_ans):
 
 	#compile
 	classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
-
-	print(model.evaluate(x_test, y_test, batch_size=batch_size))
+	classifier.fit(x_train, y_train, batch_size=batch_size, epochs=epochs)
+	print(classifier.evaluate(x_test, y_test, batch_size=batch_size))
 
 	classifier.save('trained_CNN_2020.h5')#will overwrite each time
 
@@ -54,17 +51,19 @@ class predict():
 		#layers used to process image, same as training (change input shape)-------------------------------
 		classifier.add(Conv2D(32, (3, 3), activation = 'relu', input_shape = (64, 64, 3)))#3 means RGB, 1 for black and white
 		classifier.add(MaxPooling2D(pool_size = (2,2)))
-		model.add(Dropout(0.25))classifier.add(Conv2D(64, (3,3), activation = 'relu'))
+		classifier.add(Dropout(0.25))
+
+		classifier.add(Conv2D(64, (3,3), activation = 'relu'))
 		classifier.add(MaxPooling2D(pool_size = (2,2)))
-		model.add(Dropout(0.25))
+		classifier.add(Dropout(0.25))
 
 		classifier.add(Conv2D(128, (3,3), activation = 'relu'))
 		classifier.add(MaxPooling2D(pool_size = (2,2)))
-		model.add(Dropout(0.25))
+		classifier.add(Dropout(0.25))
 
 		classifier.add(Conv2D(256, (3,3), activation = 'relu'))
 		classifier.add(MaxPooling2D(pool_size = (2,2)))
-		model.add(Dropout(0.25))
+		classifier.add(Dropout(0.25))
 		#-----------------------------------------------------------------
 
 		classifier.add(Flatten())
@@ -80,7 +79,9 @@ class predict():
 		load_model('.../trained_CNN_2020.h5')#obviously add rest of filepath
 		img = np.array(img).reshape((img_width, img_height))
 		img.expand_dims(img, axis = 0)
-		prediction = classifier.predict(img)[0]
+		prediction = classifier.predict(img)
+		print(prediction)
+		''' #not sure if this is needed or not
 		conf = -1
 		for i in [0,1]:
 			if (prediction[i] > conf):
@@ -88,4 +89,5 @@ class predict():
 				conf = prediction[i]
 		print(ans)
 		return ans
+		'''
 
