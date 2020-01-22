@@ -86,3 +86,31 @@ def takeImg(filepath):
 	pixels.resize(img_width, img_height)#makes it a 2D array
 
 	return pixels
+
+
+def startPi():
+
+    import math
+    import time
+    from aiy.vision.leds import Leds
+    from aiy.vision.leds import Pattern
+    from aiy.vision.leds import PrivacyLed
+    from aiy.vision.leds import RgbLeds
+
+    RED = (0xFF, 0x00, 0x00)
+    GREEN = (0x00, 0xFF, 0x00)
+    BLUE = (0x00, 0x00, 0xFF)
+
+    leds.update(Leds.rgb_on(BLUE))
+    print('Starting...\n\n')
+
+    while True:
+        print('Taking a picture...')
+        imageArray = takeImg('/home/pi/runningImages')
+        ans = predict(imageArray, 320, 320)
+        if ans == '':#TODO add values
+            leds.update(Leds.rgb_on(RED))
+            print('Stop sign found')
+        elif == '':
+            leds.update(Leds.rgb_on(RED))
+            print('Stop sign found')
