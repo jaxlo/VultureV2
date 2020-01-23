@@ -81,7 +81,7 @@ class predict():
 		img = np.array(img).reshape((img_width, img_height))
 		img.expand_dims(img, axis = 0)
 		prediction = classifier.predict(img)
-		print(prediction)
+		return prediction
 		''' #not sure if this is needed or not
 		conf = -1
 		for i in [0,1]:
