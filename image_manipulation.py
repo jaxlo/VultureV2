@@ -5,9 +5,6 @@ import os
 from PIL import Image
 import sys
 
-#TODO anything related to loading or manipulating the images is done in this program
-
-
 def loadImgs(filepath):
 	
 	train_imgs = np.array([])
