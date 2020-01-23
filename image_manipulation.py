@@ -102,15 +102,15 @@ def startPi():
     BLUE = (0x00, 0x00, 0xFF)
 
     leds.update(Leds.rgb_on(BLUE))
-    print('Starting...\n\n')
+    print('Starting')
 
     while True:
-        print('Taking a picture...')
+        print('Taking a picture')
         imageArray = takeImg('/home/pi/runningImages')
-        ans = predict(imageArray, 320, 320)
-        if ans == '':#TODO add values
+        ans = predict.predict(imageArray, 320, 320)
+        if ans == 1:#TODO add values
             leds.update(Leds.rgb_on(RED))
             print('Stop sign found')
-        elif == '':
-            leds.update(Leds.rgb_on(RED))
-            print('Stop sign found')
+        elif == 0:
+            leds.update(Leds.rgb_on(GREEN))
+            print('Stop sign not found')
