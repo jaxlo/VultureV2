@@ -15,7 +15,7 @@ def loadImgs(filepath):
 	test_imgs = np.array([])
 	test_ans = []
 		
-	imageFilepathSections = ('/forward', '/test')
+	imageFilepathSections = ('/go', '/stop', '/test')
 	imageDirectoryFilepath = filepath
 	appendCountTrain = 0
 	appendCountTest = 0
@@ -31,9 +31,9 @@ def loadImgs(filepath):
 					train_imgs = np.append(train_imgs, pixels)
 				else:
 					train_imgs = pixels
-				if folder == '/forward': 
+				if folder == '/go': 
 					train_ans += [0]
-				elif folder == '/left': 
+				elif folder == '/stop': 
 					train_ans += [1]
 				appendCountTrain += 1
 
@@ -42,19 +42,19 @@ def loadImgs(filepath):
 					test_imgs = np.append(test_imgs, pixels)
 				else:
 					test_imgs = pixels
-				if pic.find('forward') >= 0:
+				if pic.find('yes') >= 0:
 					test_ans += [0]
-				elif pic.find('left') >= 0  or pic.find('Left') >= 0:
+				elif pic.find('no') >= 0:
 					test_ans += [1]
 				appendCountTest += 1
 				#put similar code here when finished with the train
 		print('Loaded: '+folder.strip('/') +' Images')
 
-	train_imgs.shape = (-1, 320, 180, 1)
-	test_imgs.shape = (-1, 320, 180, 1)
+	train_imgs.shape = (-1, 320, 320, 3)
+	test_imgs.shape = (-1, 320, 320, 3)
 
 	return train_imgs, train_ans, test_imgs, test_ans
-
+'''
 def convertImg():
 	filepathToConvert = '/run/media/jax/DualOS/CompSci/finalCar/mlTrain11-4-17/all/turnLeft/'
 	filepathEnd = '/home/jax/Documents/BluescaleImages/turnLeft/'
@@ -72,23 +72,22 @@ def convertImg():
 		im.save(filepathEnd+'blue'+file)
 		print('One image converted')
 
-
+'''
 def takeImg(filepath):
 	imgCounter = 0
-	img_width, img_height = 180, 320
+	img_width, img_height = 320, 320
 	imgCounter += 1
 
 	currentImg = str(filepath)+str(imgCounter)+'.jpg'#adds image number and filepath
 	picam.capture(currentImg)
 	loadImg = Image.open(currentImg)
 	cropImg = loadImg.crop((0, 140, 320, 320))
-	pixels = np.array(cropImg.getdata(band=1), dtype=np.uint8)#only gets the red band of the image
+	#pixels = np.array(cropImg.getdata(band=1), dtype=np.uint8)#only gets the red band of the image
 	pixels.resize(img_width, img_height)#makes it a 2D array
 
 	return pixels
 
-
-def startPi():
+	def startPi():
 
     import math
     import time
