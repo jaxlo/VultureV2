@@ -14,13 +14,8 @@ def main():
 
 	#To run
 	elif int(choice) == 2:
-		while True:
-			img = im.takeImg()
-			cnn.predict.pred(img, img_width, img_height)
+		startPi()
 
-	#To convert Images
-	elif int(choice) == 3:
-		im.convertImg()
 
 	else:
 		print('Invalid. Choose Again.')
