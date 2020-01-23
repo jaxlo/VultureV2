@@ -14,7 +14,7 @@ def main():
 
 	#To run
 	elif int(choice) == 2:
-		startPi()
+		im.startPi()
 
 
 	else:
